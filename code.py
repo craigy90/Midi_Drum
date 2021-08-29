@@ -19,9 +19,11 @@ adc = analogio.AnalogIn(board.A0)
 while True:
 
     raw = adc.value
-    pad1 = int(raw/20)-43
+    pad1 = int(raw/20)-22
     if pad1 < 0:
         pad1 = 0
+    if pad1 > 127:
+        pad1 = 127
     print(pad1)
     if pad1:
         midi.send([NoteOn(40, pad1)])
