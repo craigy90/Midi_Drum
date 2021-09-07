@@ -44,14 +44,13 @@ while True:
         pad2 = 127
 
     if pad0 or pad1 or pad2:
-        time.sleep(0.1)
-        if pad1 > pad0 or pad1 > pad2:
+        if pad1 > pad0 and pad1 > pad2:
             pad0 = 0
             pad2 = 0
-        elif pad2 > pad1 or pad2 > pad0:
+        elif pad2 > pad1 and pad2 > pad0:
             pad1 = 0
-            pad2 = 0
-        elif pad0 > pad2 or pad0 > pad1:
+            pad0 = 0
+        else:
             pad2 = 0
             pad1 = 0
         print(pad0, "\t", pad1, "\t", pad2)
