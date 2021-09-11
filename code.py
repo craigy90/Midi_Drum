@@ -18,19 +18,36 @@ adc0 = analogio.AnalogIn(board.A0)
 adc1 = analogio.AnalogIn(board.A1)
 adc2 = analogio.AnalogIn(board.A2)
 
+adcRawHistory = [0, 0, 0]              # Track increasing pulse or decreasing with history
+
 def getMidiInput():
     pad = [0, 0, 0]
-    raw0 = adc0.value
-    raw1 = adc1.value
-    raw2 = adc2.value
+    adcRaw = [0, 0, 0]
 
-    #pad[0] = int(raw0/37)-21
-    #pad[1] = int(raw1/80)-20
-    #pad[2] = int(raw2/47)-20
+    adcRaw[0] = adc0.value
+    adcRaw[1] = adc1.value
+    adcRaw[2] = adc2.value
 
-    pad[0] = int(raw0/24)-53
-    pad[1] = int(raw1/65)-55
-    pad[2] = int(raw2/25)-51
+    #print("adcRawHistory before... " + str(adcRawHistory[0]) + "\t" + str(adcRawHistory[1]) + "\t" + str(adcRawHistory[2]))
+    #print("adcRaw before...        " + str(adcRaw[0]) + "\t" + str(adcRaw[1]) + "\t" + str(adcRaw[2]))
+    for i in range(3):
+        if adcRaw[i] < (adcRawHistory[i] + 129):     # Must increase by more than 20 to be used
+            adcRawHistory[i] = adcRaw[i]            # (ADC increments by 16, minimum resolution)
+            adcRaw[i] = 0
+        else:
+            adcRawHistory[i] = adcRaw[i]
+    #print("adcRaw after...         " + str(adcRaw[0]) + "\t" + str(adcRaw[1]) + "\t" + str(adcRaw[2]))
+    #print("adcRawHistory after...  " + str(adcRawHistory[0]) + "\t" + str(adcRawHistory[1]) + "\t" + str(adcRawHistory[2]))
+    #print("----------------------")
+    #time.sleep(10)
+
+    pad[0] = int(adcRaw[0]/37)-25
+    pad[1] = int(adcRaw[1]/80)-20
+    pad[2] = int(adcRaw[2]/47)-20
+
+    #pad[0] = int(raw0/24)-53
+    #pad[1] = int(raw1/65)-55
+    #pad[2] = int(raw2/25)-51
 
     if pad[0] < 0:
         pad[0] = 0
@@ -63,7 +80,7 @@ def getMidiInput():
             print(str(pad[0]) + "\t" + str(pad[1]) + "\t" + str(pad[2]))
             #print("-----------")
 
-    time.sleep(0.05)
+    #time.sleep(0.05)
 
     return pad
 
@@ -102,7 +119,7 @@ while (padCount < 3):
                     enterKey = 3
 
             print("key = " + str(key))
-#
+
             midi.send([NoteOn(key, 100)])
             midi.send([NoteOff(key, 100)])
         #time.sleep(0.1)
