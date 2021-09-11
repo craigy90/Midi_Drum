@@ -3,7 +3,12 @@ Midi Drum
 Drum has piezo sensors guled beneath skin. Signal is fed to Pi Pico analog inputs.
 
 Current:
-Three piezo sensors partially calibrated
+Three piezo sensors calibrated
+There is alway cross talk between sensors. Physical design limitation. Make the 3 sounds similar like 3 bongo sounds,
+as if it is one drum with 3 tones
 
-Bug:
-Sometimes all 3 output zeros
+Due to some sound packs in Ableton being only limited input - now trying
+to have a program drum sounds sequence at start up.
+
+This works with console input + Enter. Won't work without running Mu though.
+Try: use sensor input to make adjustments

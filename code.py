@@ -18,15 +18,40 @@ adc0 = analogio.AnalogIn(board.A0)
 adc1 = analogio.AnalogIn(board.A1)
 adc2 = analogio.AnalogIn(board.A2)
 
+stop = 0
+key = 20
+while (stop == 0):
+    print("Enter 'a' to up the note, 'z' to down the note 'q' to exit ...")
+    keyB = input()
+    print(stop)
+    if keyB == 'a':
+        key += 1
+        print('up to ' + str(key))
+    if keyB == 'z':
+        key -= 1
+        print('down to ' + str(key))
+    if keyB == 'q':
+        stop = 1
+    if key < 1:
+        key = 1
+    if key >127:
+        key = 127
+
+    midi.send([NoteOn(key, 127)])
+    #print("pad2")
+    #time.sleep(0.01)
+    midi.send([NoteOff(key, 127)])
+    #time.sleep(1)
+
 while True:
 
     raw0 = adc0.value
     raw1 = adc1.value
     raw2 = adc2.value
 
-    pad0 = int(raw0/30)-50
-    pad1 = int(raw1/65)-32
-    pad2 = int(raw2/20)-50
+    pad0 = int(raw0/24)-53
+    pad1 = int(raw1/65)-63
+    pad2 = int(raw2/25)-51
 
     if pad0 < 0:
         pad0 = 0
@@ -53,25 +78,25 @@ while True:
         else:
             pad2 = 0
             pad1 = 0
-        print(pad0, "\t", pad1, "\t", pad2)
+        #print(pad0, "\t", pad1, "\t", pad2)
 
     if pad0:
-        midi.send([NoteOn(40, pad0)])
-        print("pad0")
-        time.sleep(0.01)
-        midi.send([NoteOff(40, pad0)])
+        midi.send([NoteOn(62, pad0)])
+        #print("pad0")
+        #time.sleep(0.01)
+        midi.send([NoteOff(62, pad0)])
 
     if pad1:
-        midi.send([NoteOn(45, pad1)])
-        print("pad1")
-        time.sleep(0.01)
-        midi.send([NoteOff(45, pad1)])
+        midi.send([NoteOn(60, pad1)])
+        #print("pad1")
+        #time.sleep(0.01)
+        midi.send([NoteOff(60, pad1)])
 
     if pad2:
-        midi.send([NoteOn(50, pad2)])
-        print("pad2")
-        time.sleep(0.01)
-        midi.send([NoteOff(50, pad2)])
+        midi.send([NoteOn(65, pad2)])
+        #print("pad2")
+        #time.sleep(0.01)
+        midi.send([NoteOff(65, pad2)])
 
 
-    time.sleep(0.01)
+    #time.sleep(0.01)
