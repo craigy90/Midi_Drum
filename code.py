@@ -18,7 +18,10 @@ adc0 = analogio.AnalogIn(board.A0)
 adc1 = analogio.AnalogIn(board.A1)
 adc2 = analogio.AnalogIn(board.A2)
 
-adcRawHistory = [0, 0, 0]              # Track increasing pulse or decreasing with history
+adcRawHistory = [600, 600, 600]     # Track increasing pulse or decreasing with history
+# Calibration Values...
+settingAttack = [650, 620, 620]     # Raw setting, minimum resolution 16, attack ramp and noise suppression
+settingAttenuate = [85, 80, 85]     # Divisor to provide output values
 
 def getMidiInput():
     pad = [0, 0, 0]
@@ -28,22 +31,17 @@ def getMidiInput():
     adcRaw[1] = adc1.value
     adcRaw[2] = adc2.value
 
-    #print("adcRawHistory before... " + str(adcRawHistory[0]) + "\t" + str(adcRawHistory[1]) + "\t" + str(adcRawHistory[2]))
-    #print("adcRaw before...        " + str(adcRaw[0]) + "\t" + str(adcRaw[1]) + "\t" + str(adcRaw[2]))
     for i in range(3):
-        if adcRaw[i] < (adcRawHistory[i] + 129):     # Must increase by more than 20 to be used
+        if adcRaw[i] < (adcRawHistory[i] + settingAttack[i]):     # Must increase by more than 20 to be used
             adcRawHistory[i] = adcRaw[i]            # (ADC increments by 16, minimum resolution)
             adcRaw[i] = 0
         else:
             adcRawHistory[i] = adcRaw[i]
-    #print("adcRaw after...         " + str(adcRaw[0]) + "\t" + str(adcRaw[1]) + "\t" + str(adcRaw[2]))
-    #print("adcRawHistory after...  " + str(adcRawHistory[0]) + "\t" + str(adcRawHistory[1]) + "\t" + str(adcRawHistory[2]))
-    #print("----------------------")
-    #time.sleep(10)
+        pad[i] = int(adcRaw[i] / settingAttenuate[i])
 
-    pad[0] = int(adcRaw[0]/37)-25
-    pad[1] = int(adcRaw[1]/80)-20
-    pad[2] = int(adcRaw[2]/47)-20
+    #pad[0] = int(adcRaw[0]/90)
+    #pad[1] = int(adcRaw[1]/90)
+    #pad[2] = int(adcRaw[2]/90)
 
     #pad[0] = int(raw0/24)-53
     #pad[1] = int(raw1/65)-55

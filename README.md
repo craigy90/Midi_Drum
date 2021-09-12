@@ -10,5 +10,6 @@ as if it is one drum with 3 tones
 Due to some sound packs in Ableton being only limited input - now trying
 to have a program drum sounds sequence at start up.
 
-This works with console input + Enter. Won't work without running Mu though.
-Try: use sensor input to make adjustments
+Using sensors to adjust setup value
+
+Changed calibration method
