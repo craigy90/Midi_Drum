@@ -20,8 +20,8 @@ adc2 = analogio.AnalogIn(board.A2)
 
 adcRawHistory = [600, 600, 600]     # Track increasing pulse or decreasing with history
 # Calibration Values...
-settingAttack = [650, 620, 620]     # Raw setting, minimum resolution 16, attack ramp and noise suppression
-settingAttenuate = [85, 80, 85]     # Divisor to provide output values
+settingAttack = [1000, 800, 800]     # Raw setting, minimum resolution 16, attack ramp and noise suppression
+settingAttenuate = [85, 90, 85]     # Divisor to provide output values
 
 def getMidiInput():
     pad = [0, 0, 0]
@@ -47,6 +47,7 @@ def getMidiInput():
     #pad[1] = int(raw1/65)-55
     #pad[2] = int(raw2/25)-51
 
+# Use for loop for this.........
     if pad[0] < 0:
         pad[0] = 0
     if pad[0] > 127:
