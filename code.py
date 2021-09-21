@@ -20,7 +20,7 @@ adc2 = analogio.AnalogIn(board.A2)
 
 adcRawHistory = [600, 600, 600]     # Track increasing pulse or decreasing with history
 # Calibration Values...
-settingAttack = [1000, 800, 800]     # Raw setting, minimum resolution 16, attack ramp and noise suppression
+settingAttack = [800,700,650]                    #[1000, 800, 800]     # Raw setting, minimum resolution 16, attack ramp and noise suppression
 settingAttenuate = [85, 90, 85]     # Divisor to provide output values
 
 def getMidiInput():
@@ -63,7 +63,7 @@ def getMidiInput():
     if pad[2] > 127:
         pad[2] = 127
 
-    if pad[0] or pad[1] or pad[2]:
+    if (0):             #pad[0] or pad[1] or pad[2]:
         if pad[1] > pad[0] and pad[1] > pad[2]:
             pad[0] = 0
             pad[2] = 0
@@ -74,9 +74,9 @@ def getMidiInput():
             pad[2] = 0
             pad[1] = 0
 
-    for note in pad:
-        if note:
-            print(str(pad[0]) + "\t" + str(pad[1]) + "\t" + str(pad[2]))
+    #for note in pad:
+        #if note:
+            #print(str(pad[0]) + "\t" + str(pad[1]) + "\t" + str(pad[2]))
             #print("-----------")
 
     #time.sleep(0.05)
@@ -85,9 +85,9 @@ def getMidiInput():
 
 
                             # Sound setup routine...
-pads = [60,62,64]              # Keeps the pad midi code #s
+pads = [40,38,44]           #pads = [60,62,64]              # Keeps the pad midi code #s
 padCount = 0
-while (padCount < 3):
+while (0):              #(padCount < 3):
     pad = [0, 0, 0]
     enterKey = 3
 
